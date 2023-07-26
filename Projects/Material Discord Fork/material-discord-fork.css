@@ -1,7 +1,50 @@
-@import url("https://capnkitten.github.io/BetterDiscord/Themes/Material-Discord/css/fonts/google-sans.css");
+@font-face {
+    font-family: 'Onest';
+    src: url('./Fonts/Onest-Thin.ttf');
+    font-weight: 100;
+}
+
+@font-face {
+    font-family: 'Onest';
+    src: url('./Fonts/Onest-Light.ttf');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: 'Onest';
+    src: url('./Fonts/Onest-Regular.ttf');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'Onest';
+    src: url('./Fonts/Onest-Medium.ttf');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Onest';
+    src: url('./Fonts/Onest-Bold.ttf');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Onest';
+    src: url('./Fonts/Onest-ExtraBold.ttf');
+    font-weight: 800;
+}
+
+@font-face {
+    font-family: 'Onest';
+    src: url('./Fonts/Onest-Black.ttf');
+    font-weight: 900;
+}
+
 @import url("https://capnkitten.github.io/BetterDiscord/Themes/Material-Discord/css/icons.css");
+
+
 :root {
-  --app-font: "Google Sans";
+  --app-font: "Onest";
   --app-bg: var(--main-alt);
   --accent-hue: 224;
   --accent-saturation: 71%;
