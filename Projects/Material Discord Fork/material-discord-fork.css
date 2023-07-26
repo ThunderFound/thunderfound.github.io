@@ -62,7 +62,7 @@
   --alert-button-action-active: 0.2;
   --alert-text-color: hsl(0,0%,100%);
   --success-color: #43b581;
-  --message-radius: 190px;
+  --message-radius: 19px;
   --message-padding-top: 8px;
   --message-padding-side: 12px;
   --main-textarea-color: var(--input-color);
