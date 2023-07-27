@@ -38,6 +38,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
+    cursor: pointer;
     background: var(--secondary-light);
     padding: var(--padding);
     border-radius: var(--secondary-border-radius);
@@ -68,13 +69,6 @@ a:hover {
     position: relative;
     margin-left: auto;
     margin-right: auto;
-
-    display: grid;
-    grid-template-columns: 20rem 1fr;
-    gap: var(--grid-gap);
-
-    grid-template-areas: "A A"
-                         "B .";
 }
 
 header {
@@ -92,22 +86,35 @@ header {
     display: flex;
     align-items: start;
     justify-content: baseline;
-    column-gap: 5px;
+    column-gap: var(--grid-gap);
 
     width: fit-content;
+
+    cursor: pointer;
+    transition: transform ease 0.2s, box-shadow ease 0.5s;
+}
+
+.project_card:hover {
+    box-shadow: 50px 5px 100px 0px rgba(76, 165, 241, 0.2), -50px -5px 100px 0px rgba(197, 150, 247, 0.2);
 }
 
 .project_card img {
-    border-radius: var(--border-radius);
+    border-radius: var(--secondary-border-radius);
 }
 
 .card_text {
     display: flex;
-    max-height: 200px;
+    min-height: 200px;
 
     flex-direction: column;
 }
 
 .card_text p {
-    min-width: max-content;
+    width: 220px;
+}
+
+.projects {
+    display: flex;
+    justify-content: center;
+    margin-top: 300px;
 }
