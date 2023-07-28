@@ -9,7 +9,7 @@
     --accent: #4a1ff4;
 
     --border-radius: 16px;
-    --secondary-border-radius: calc(var(--border-radius)/1.25);
+    --secondary-border-radius: calc(var(--border-radius)/1.4);
     --padding: 12px;
     --margin: 12px;
     --grid-gap: 12px;
@@ -22,6 +22,8 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 body {
@@ -65,7 +67,7 @@ a:hover {
 
 .normal_page {
     max-width: 80rem;
-    margin: var(--margin);
+    /* margin: var(--margin); */
     position: relative;
     margin-left: auto;
     margin-right: auto;
@@ -74,8 +76,6 @@ a:hover {
 header {
     display: flex;
     justify-content: center;
-
-    grid-area: A;
 }
 
 .project_card {
@@ -89,6 +89,7 @@ header {
     column-gap: var(--grid-gap);
 
     width: fit-content;
+    height: fit-content;
 
     cursor: pointer;
     transition: transform ease 0.2s, box-shadow ease 0.5s;
@@ -111,10 +112,33 @@ header {
 
 .card_text p {
     width: 220px;
+    font-size: 18px;
 }
 
-.projects {
+.card_text h2 {
+    border-bottom: rgba(0, 0, 0, 0.5) solid 1.5px;
+    padding-bottom: 2px;
+    margin-bottom: 4px;
+}
+
+.main_project {
     display: flex;
     justify-content: center;
-    margin-top: 300px;
+    align-items: center;
+    /* margin-top: 300px; */
+
+    height: 100vh;
+}
+
+.card_crown {
+    position: absolute;
+    transform: translate(-40px, -60px) rotate(-20deg);
+    stroke: rgb(239, 252, 58);
+    fill: var(--background);
+    pointer-events: none;
+    transition: all 0.5s;
+}
+
+.project_card:hover .card_crown {
+    transform: translate(-60px, -51px) rotate(-40deg);
 }
