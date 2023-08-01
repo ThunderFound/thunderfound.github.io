@@ -1,15 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title></title>
+        <title>ThunderFound</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="./style.css">
+        <script defer src="app.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script> 
     </head>
     <body>
+        <div class="cursor-dot" data-cursor-dot></div>
+        <div class="cursor-outline" data-cursor-outline></div>
         <main>
             <div class="normal_page">
+                <section">
+                    <header>
+                        <nav>
+                            <a href="#">Main page</a>
+                            <a href="#">My projects</a>
+                        </nav>
+                    </header>
+                    <div class="welcome_page">
+                        <div id="wpbg_c1"></div>
+                        <div id="wpbg_c2"></div>
+                        <div id="wpbg_c3"></div>
+                        <h1 class="page_title hidden">Welcome, this is my
+                            <span class="text_effect">Portfolio</span></h1>
+                    </div>
+                </section>
                 <section class="main_project">              
-                    <div class="project_card big_card">
+                    <div class="project_card hidden">
                         <svg class="card_crown" width="100" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M10 1L14 7L19 3L17 13H3L1 3L6 7L10 1Z" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -19,6 +38,11 @@
                             <p>Today, on July 15, my cat Smokey turns 15 years old and in honor of this I created a texture pack in which all the wool will be replaced with his muzzle :D</p>
                         </div>
                     </div>
+<!--                     <div class="dropdown_menu">
+                        <a href="#">Modrinth</a>
+                        <a href="#">CurseForge</a>
+                        <a href="#">Planet Minecraft</a>
+                    </div> -->
                 </section>
             </div>
         </main>

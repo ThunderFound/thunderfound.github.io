@@ -9,7 +9,7 @@
     --accent: #4a1ff4;
 
     --border-radius: 16px;
-    --secondary-border-radius: calc(var(--border-radius)/1.4);
+    --secondary-border-radius: calc(var(--border-radius)/1.5);
     --padding: 12px;
     --margin: 12px;
     --grid-gap: 12px;
@@ -22,12 +22,13 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    overflow-y: hidden;
-    overflow-x: hidden;
+    cursor: none;
 }
 
 body {
     background: var(--background);
+/*     overflow-y: hidden;
+    overflow-x: hidden; */
 }
 
 p {
@@ -40,7 +41,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-    cursor: pointer;
     background: var(--secondary-light);
     padding: var(--padding);
     border-radius: var(--secondary-border-radius);
@@ -67,7 +67,6 @@ a:hover {
 
 .normal_page {
     max-width: 80rem;
-    /* margin: var(--margin); */
     position: relative;
     margin-left: auto;
     margin-right: auto;
@@ -76,6 +75,13 @@ a:hover {
 header {
     display: flex;
     justify-content: center;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: var(--padding);
 }
 
 .project_card {
@@ -90,8 +96,6 @@ header {
 
     width: fit-content;
     height: fit-content;
-
-    cursor: pointer;
     transition: transform ease 0.2s, box-shadow ease 0.5s;
 }
 
@@ -105,7 +109,7 @@ header {
 
 .card_text {
     display: flex;
-    min-height: 200px;
+    max-height: 200px;
 
     flex-direction: column;
 }
@@ -124,10 +128,8 @@ header {
 .main_project {
     display: flex;
     justify-content: center;
-    align-items: center;
-    /* margin-top: 300px; */
-
-    height: 100vh;
+    padding-top: 300px;
+    padding-bottom: 300px;
 }
 
 .card_crown {
@@ -141,4 +143,121 @@ header {
 
 .project_card:hover .card_crown {
     transform: translate(-60px, -51px) rotate(-40deg);
+}
+
+.project_card:hover ~ .dropdown_menu{
+    transform: translate(0, 138px);
+}
+
+.dropdown_menu:hover {
+    transform: translate(0, 138px);
+}
+
+.dropdown_menu {
+    z-index: -1;
+    position: absolute;
+    max-width: 456px;
+
+    display: flex;
+    column-gap: var(--padding);
+    flex-direction: row;
+    transform: translate(0, 83px);
+    padding-top: 14px;
+
+    transition: all 0.5s ease-in-out;
+}
+
+.dropdown_menu a {
+    pointer-events: all;
+    text-align: center;
+    font-size: 15px;
+}
+
+.welcome_page {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#wpbg_c1 {
+    position: absolute;
+    height: 25rem;
+    width: 25rem;
+    transform: translate(-70px, 0px);
+    background: radial-gradient(103.03% 224.05% at 7% 45%, #FF007B 0%, #ff00a6 85%); opacity: 0.2; filter: blur(130px); border-radius: 9999px;
+}
+
+#wpbg_c2 {
+    position: absolute;
+    height: 25rem;
+    width: 25rem;
+    transform: translate(100px, 80px);
+    background: radial-gradient(103.03% 224.05% at 7% 45%, #a14eff 0%, #6B4EFF 85%); opacity: 0.2; filter: blur(130px); border-radius: 9999px;
+}
+
+#wpbg_c3 {
+    position: absolute;
+    height: 25rem;
+    width: 25rem;
+    transform: translate(70px, -70px);
+    background: radial-gradient(103.03% 224.05% at 7% 45%, #4ea1ff 0%, #4e5dff 85%); opacity: 0.2; filter: blur(130px); border-radius: 9999px;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    color: var(--text-light);
+    z-index: 1;
+    text-align: center;
+}
+
+.page_title {
+    font-size: 8vh;
+    white-space: pre-line;
+    font-family: 'Unbounded';
+    text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.3);
+}
+
+.text_effect {
+    text-shadow: 0px 0px 20px rgba(174, 0, 255, 0.4);
+    font-family: 'Unbounded';
+    background: linear-gradient(160deg, rgb(191, 45, 181) 0%, rgb(67, 73, 222) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hidden {
+    opacity: 0;
+    filter: blur(10px);
+    transition: all 1s;
+    transform: translateX(-100%);
+}
+
+.show {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateX(0);
+}
+
+.cursor-dot {
+    width: 5px;
+    height: 5px;
+    background: white;
+}
+
+.cursor-outline {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgb(255, 255, 255);
+}
+
+.cursor-dot,
+.cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 69;
+    pointer-events: none;
+    mix-blend-mode: exclusion;
 }
