@@ -29,7 +29,7 @@ requestAnimationFrame(raf)
 
 
 var cursor = {
-    delay: 8,
+    delay: 0,
     _x: 0,
     _y: 0,
     endX: (window.innerWidth / 2),
@@ -133,7 +133,7 @@ var cursor = {
         var self = this;
         
         if (self.cursorEnlarged) {
-            self.$dot.style.transform = 'translate(-50%, -50%) scale(0.75)';
+            self.$dot.style.transform = 'translate(-50%, -50%) scale(1.25)';
             self.$outline.style.transform = 'translate(-50%, -50%) scale(1.5)';
         } else {
             self.$dot.style.transform = 'translate(-50%, -50%) scale(1)';
