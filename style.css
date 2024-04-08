@@ -114,3 +114,9 @@ textarea {
         flex-flow: column-reverse;
     }
 }
+
+@media (max-width: 340px) {
+    h1 {
+        font-size: 20px;
+    }
+}
