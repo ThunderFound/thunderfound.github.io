@@ -91,17 +91,17 @@ textarea {
     }
 
     button {
-        width: calc(100% - 20px);
+        width: calc(100% - 40px);
         margin: auto;
     }
 
     #text_length {
-        width: calc(100% - 40px - 20px);
+        width: calc(100% - 40px - 40px);
         margin: auto;
     }
 
     textarea {
-        width: calc(100% - 40px);
+        width: calc(100% - 50px);
         margin-top: 0;
         margin-bottom: 30px;
     }
