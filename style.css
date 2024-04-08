@@ -73,7 +73,7 @@ textarea {
     margin: auto;
 }
 
-.text_length {
+#text_length {
     background: #ccc;
     border-radius: 15px;
     font-size: 24px;
