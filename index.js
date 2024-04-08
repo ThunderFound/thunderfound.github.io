@@ -27,7 +27,7 @@ function generateRandomString(length) {
     return result;
 }
 
-const textLength = 20;
+const textLength = 19;
 
 const randomText = generateRandomString(textLength);
 
