@@ -91,19 +91,19 @@ textarea {
     }
 
     button {
-        width: 90%;
+        width: calc(100% - 20px);
         margin: auto;
     }
 
     #text_length {
-        width: calc(90% - 40px);
+        width: calc(100% - 40px - 20px);
         margin: auto;
     }
 
     textarea {
-        width: 90%;
+        width: calc(100% - 40px);
         margin-top: 0;
-        margin-bottom: 50px;
+        margin-bottom: 30px;
     }
 
     main {
