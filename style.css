@@ -2,14 +2,14 @@
 
 * {
     font-family: -apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
-    text-rendering: optimizeLegibility;
+    /* text-rendering: optimizeLegibility; */
     text-transform: none !important;
     letter-spacing: 0.015em;
 
     padding: 0;
     margin: 0;
   
-    /* font-weight: bold !important; */
+    font-weight: bold !important;
 }
 
 h1 {
