@@ -1,21 +1,39 @@
-// Находим кнопку по id и добавляем обработчик события при клике
 document.getElementById('generate').addEventListener('click', function() {
-    // Находим input и textarea по id
     const textLengthInput = document.getElementById('text_length');
     const textarea = document.getElementById('textarea');
     
-    // Получаем значение длины текста из input и преобразуем его в число
     const textLength = parseInt(textLengthInput.value);
 
-    // Строка символов, из которых будем генерировать текст
     const characters = 'йцукенгшщзхъфывапролджэячсмитьбю    ,..,.,.()1234567890%}{:>';
 
-    // Генерируем случайный текст заданной длины
     let generatedText = '';
     for (let i = 0; i < textLength; i++) {
         generatedText += characters.charAt(Math.floor(Math.random() * characters.length));
     }
 
-    // Устанавливаем сгенерированный текст в textarea
     textarea.value = generatedText;
 });
+
+
+
+const randomHeading = document.getElementById('random_heading');
+
+function generateRandomString(length) {
+    const characters = 'йцукенгшщзхъфывапролджэячсмитьбю    ,..,.,.()1234567890%}{:>';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+}
+
+const textLength = 20;
+
+const randomText = generateRandomString(textLength);
+
+randomHeading.textContent = randomText;
+
+setInterval(function() {
+    const randomText = generateRandomString(textLength);
+    randomHeading.textContent = randomText;
+}, 500);
