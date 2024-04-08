@@ -1,0 +1,84 @@
+@import url("https://Cinnab0nBak3ry.github.io/AppleFontsCSS/Apple-fonts.css");
+
+* {
+    font-family: -apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+    text-rendering: optimizeLegibility;
+    text-transform: none !important;
+    letter-spacing: 0.015em;
+
+    padding: 0;
+    margin: 0;
+  
+    /* font-weight: bold !important; */
+}
+
+h1 {
+    margin: 30px 0 70px;
+    text-align: center;
+}
+
+button {
+    border: none;
+    outline: none;
+    box-shadow: none;
+
+    background: #000;
+    color: #FFF;
+    border-radius: 15px;
+    padding: 25px 60px 25px 60px;
+    font-size: 24px;
+
+    display: block;
+    /* margin: auto; */
+    
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #111;
+}
+
+button:active {
+    background: #222;
+}
+
+textarea {
+    width: 600px;
+    height: 300px;
+
+    border: none;
+    outline: none;
+    box-shadow: none;
+
+    background: #ccc;
+    color: #000000;
+    border-radius: 15px;
+    padding: 15px;
+    font-weight: 600;
+    font-size: 24px;
+
+    display: block;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.parameters {
+    gap: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    width: 100%;
+    margin: auto;
+}
+
+.text_length {
+    background: #ccc;
+    border-radius: 15px;
+    font-size: 24px;
+    padding: 15px 20px 15px 20px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
