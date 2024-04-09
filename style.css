@@ -1,8 +1,6 @@
 @import url("https://Cinnab0nBak3ry.github.io/AppleFontsCSS/Apple-fonts.css");
-@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap')
-
 * {
-    font-family: -apple-system,BlinkMacSystemFont,"Comic Neue",sans-serif;
+    font-family: -apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
     /* text-rendering: optimizeLegibility; */
     text-transform: none !important;
     letter-spacing: 0.015em;
