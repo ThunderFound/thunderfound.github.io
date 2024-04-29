@@ -27,6 +27,9 @@ html {
 body {
     margin: auto;
     max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
 }
 
 h1 {
@@ -36,10 +39,6 @@ h1 {
 
 p {
     font-size: 16px;
-}
-
-section {
-    margin: 15px 0 15px;
 }
 
 .code {
@@ -54,6 +53,23 @@ section {
 .code * {
     font-family: "SF Mono";
     font-weight: 400;
+}
+
+section {
+    /* margin: 25px 0 25px; */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.split {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+img {
+    border-radius: 10px;
 }
 
 @media (max-width: 740px) {
