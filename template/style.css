@@ -1,0 +1,63 @@
+@import url("https://Cinnab0nBak3ry.github.io/AppleFontsCSS/Apple-fonts.css");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+* {
+    font-family: "Inter";
+    overflow-wrap: break-word;
+    color: #DBDEE1;
+    text-rendering: geometricPrecision;
+    text-transform: none !important;
+    letter-spacing: 0.015em;
+    line-height: 1.75;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+  /* font-weight: bold !important; */
+}
+
+*::selection {
+    background: rgba(144, 144, 255, .25);
+}
+
+html {
+    background: #131212;
+}
+
+body {
+    margin: auto;
+    max-width: 720px;
+}
+
+h1 {
+    text-align: center;
+    margin: 15px 0 15px;
+}
+
+p {
+    font-size: 16px;
+}
+
+section {
+    margin: 15px 0 15px;
+}
+
+.code {
+    font-family: "SF Mono";
+    font-weight: 400;
+    background: #191818;
+    border: solid #4E4E4F 1px;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.code * {
+    font-family: "SF Mono";
+    font-weight: 400;
+}
+
+@media (max-width: 740px) {
+    body {
+        margin: 0 10px;
+    }
+}
