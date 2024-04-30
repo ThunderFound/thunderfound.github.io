@@ -70,10 +70,21 @@ section {
 
 img {
     border-radius: 10px;
+    width: 50%;
 }
 
 @media (max-width: 740px) {
     body {
         margin: 0 10px;
+    }
+}
+
+@media (max-width: 620px) {
+    .split {
+        flex-direction: column;
+    }
+
+    img {
+        margin: auto;
     }
 }
