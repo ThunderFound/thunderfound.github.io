@@ -81,6 +81,7 @@ img {
 footer {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     gap: 10px;
     margin-top: 25px;
     background: #1E1D1D;
@@ -91,6 +92,12 @@ footer {
 
 footer * {
     color: #80848E;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
 }
 
 @media (max-width: 740px) {
