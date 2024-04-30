@@ -25,7 +25,7 @@ html {
 }
 
 main {
-    margin: auto;
+    margin: 0 auto;
     max-width: 720px;
     display: flex;
     flex-direction: column;
@@ -35,6 +35,39 @@ main {
 h1 {
     text-align: center;
     margin: 15px 0 15px;
+}
+
+h2, h3 {
+    text-align: center;
+}
+
+.sub {
+    font-weight: 500;
+    color: #80848E;
+    margin-top: -15px;
+    letter-spacing: .1em;
+}
+
+button {
+    all: unset;
+    font-family: -apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+    text-align: center;
+    width: 300px;
+    padding: 20px 10px;
+    background: #796DA5;
+    border-radius: 10px;
+    color: #EdEFF1;
+    text-shadow: #ffffff96 0 0 30px;
+    cursor: pointer;
+    font-weight: 700;
+    letter-spacing: .05em;
+    font-size: 20px;
+    margin: 0 auto;
+    transition: .5s;
+}
+
+button:hover {
+    box-shadow: inset #ffffff20 1000px 1000px, #ffffff40 0 0 100px;
 }
 
 p {
@@ -97,6 +130,7 @@ footer * {
 body {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     min-height: 100svh;
 }
 
