@@ -56,8 +56,9 @@ function drawPolygon(points, strokeOnly = false) {
 
 // Function to resize the canvas to fit the browser window
 function resizeCanvas() {
-  canvas.width = document.documentElement.clientWidth * canvasResolution;
-  canvas.height = document.documentElement.clientHeight * canvasResolution;
+  const maxDimension = Math.max(document.documentElement.clientWidth, document.documentElement.clientHeight);
+  canvas.width = maxDimension * canvasResolution;
+  canvas.height = maxDimension * canvasResolution;
 }
 
 // Function to animate the points and redraw the triangulation
