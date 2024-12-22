@@ -1,1 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tier List Maker</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f4f4f9;
+      }
 
+      h1 {
+        margin: 20px 0;
+        color: #333;
+      }
+
+      .tier-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 90%;
+        max-width: 600px;
+      }
+
+      .tier {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        background-color: #e0e0e0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+      }
+
+      .tier-label {
+        width: 50px;
+        text-align: center;
+        font-weight: bold;
+        background-color: #007bff;
+        color: white;
+        border-radius: 3px;
+        padding: 5px;
+      }
+
+      .tier-items {
+        flex: 1;
+        min-height: 50px;
+        display: flex;
+        gap: 5px;
+        padding: 5px;
+        background-color: white;
+        border: 1px dashed #ccc;
+        border-radius: 3px;
+        position: relative;
+        transition: background-color 0.3s ease;
+        overflow-x: auto;
+      }
+
+      .item {
+        background-color: #4caf50;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: grab;
+        user-select: none;
+        transition: transform 0.2s ease, background-color 0.3s ease;
+      }
+
+      .item:active {
+        cursor: grabbing;
+      }
+
+      .dragging {
+        opacity: 0.6;
+        transform: scale(1.1);
+      }
+
+      .pool {
+        flex: 1;
+        min-height: 50px;
+        display: flex;
+        gap: 10px;
+        margin: 20px 0;
+        background-color: white;
+        border: 1px dashed #ccc;
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Tier List Maker</h1>
+
+    <div class="tier-container">
+      <div class="pool" id="pool"></div>
+      <div class="tier">
+        <div class="tier-label">S</div>
+        <div class="tier-items" data-tier="S"></div>
+      </div>
+      <div class="tier">
+        <div class="tier-label">A</div>
+        <div class="tier-items" data-tier="A"></div>
+      </div>
+      <div class="tier">
+        <div class="tier-label">B</div>
+        <div class="tier-items" data-tier="B"></div>
+      </div>
+      <div class="tier">
+        <div class="tier-label">C</div>
+        <div class="tier-items" data-tier="C"></div>
+      </div>
+      <div class="tier">
+        <div class="tier-label">D</div>
+        <div class="tier-items" data-tier="D"></div>
+      </div>
+    </div>
+
+    <script>
+      // Define the elements to be used in the tier list
+      const elements = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];
+
+      const pool = document.getElementById("pool");
+
+      // Create and append elements to the pool
+      elements.forEach((element) => {
+        const item = document.createElement("div");
+        item.className = "item";
+        item.textContent = element;
+        item.draggable = true;
+
+        // Add event listeners for drag events
+        item.addEventListener("dragstart", () => {
+          item.classList.add("dragging");
+        });
+
+        item.addEventListener("dragend", () => {
+          item.classList.remove("dragging");
+        });
+
+        pool.appendChild(item);
+      });
+
+      // Enable drag-and-drop functionality for tier-items
+      document.querySelectorAll(".tier-items").forEach((tier) => {
+        tier.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          const afterElement = getDragAfterElement(tier, e.clientX);
+          const draggable = document.querySelector(".dragging");
+
+          if (afterElement == null) {
+            tier.appendChild(draggable);
+          } else {
+            tier.insertBefore(draggable, afterElement);
+          }
+        });
+
+        tier.addEventListener("dragleave", () => {
+          tier.style.borderColor = "#ccc";
+        });
+
+        tier.addEventListener("drop", (e) => {
+          e.preventDefault();
+          const data = e.dataTransfer.getData("text/plain");
+          const existingItem = Array.from(document.querySelectorAll(".item")).find((item) => item.textContent === data);
+
+          if (existingItem) {
+            tier.appendChild(existingItem);
+          }
+        });
+      });
+
+      // Enable drag-and-drop functionality for pool
+      pool.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(pool, e.clientX);
+        const draggable = document.querySelector(".dragging");
+
+        if (afterElement == null) {
+          pool.appendChild(draggable);
+        } else {
+          pool.insertBefore(draggable, afterElement);
+        }
+      });
+
+      pool.addEventListener("drop", (e) => {
+        e.preventDefault();
+        const data = e.dataTransfer.getData("text/plain");
+        const existingItem = Array.from(document.querySelectorAll(".item")).find((item) => item.textContent === data);
+
+        if (existingItem) {
+          pool.appendChild(existingItem);
+        }
+      });
+
+      function getDragAfterElement(container, x) {
+        const draggableElements = [...container.querySelectorAll(".item:not(.dragging)")];
+
+        return draggableElements.reduce(
+          (closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = x - box.left - box.width / 2;
+            if (offset < 0 && offset > closest.offset) {
+              return { offset: offset, element: child };
+            } else {
+              return closest;
+            }
+          },
+          { offset: Number.NEGATIVE_INFINITY }
+        ).element;
+      }
+    </script>
+  </body>
+</html>
