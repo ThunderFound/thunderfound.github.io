@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinterest Media Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        input, button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Pinterest Media Downloader</h1>
+    <input type="text" id="urlInput" placeholder="Введите URL пина Pinterest">
+    <button id="downloadButton">Скачать</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    document.getElementById('downloadButton').addEventListener('click', async () => {
+        const url = document.getElementById('urlInput').value.trim();
+        const resultDiv = document.getElementById('result');
+        resultDiv.textContent = 'Загрузка...';
+
+        try {
+            validateUrl(url);
+
+            const proxyUrl = `https://cors-anywhere.herokuapp.com/${url}`;
+            const page = await fetchPageContent(proxyUrl);
+
+            const videoMatch = page.match(/"contentUrl"\s*:\s*"([^"]+\.mp4[^"]*)"/);
+            if (videoMatch) {
+                const vidUrl = videoMatch[1].replace(/\\u002F/g, '/').replace(/\\/g, '');
+                resultDiv.innerHTML = `<strong>Видео найдено:</strong> <a href="${vidUrl}" target="_blank">Скачать</a>`;
+                return;
+            }
+
+            const imgMatch = page.match(/https:\/\/i\.pinimg\.com\/originals\/[^"]+/);
+            if (imgMatch) {
+                const imgUrl = imgMatch[0];
+                resultDiv.innerHTML = `<strong>Изображение найдено:</strong> <a href="${imgUrl}" target="_blank">Скачать</a>`;
+                return;
+            }
+
+            resultDiv.innerHTML = `<strong>Ошибка:</strong> Медиа не найдено`;
+        } catch (error) {
+            resultDiv.innerHTML = `<strong>Ошибка:</strong> ${error.message}`;
+        }
+    });
+
+    function validateUrl(url) {
+        try {
+            const parsed = new URL(url);
+            if (!['http:', 'https:'].includes(parsed.protocol)) {
+                throw new Error('Только HTTP/HTTPS URL разрешены');
+            }
+        } catch (e) {
+            throw new Error('Неверный URL');
+        }
+    }
+
+    async function fetchPageContent(url) {
+        const response = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+        if (!response.ok) {
+            throw new Error(`Ошибка загрузки страницы (${response.status})`);
+        }
+        return await response.text();
+    }
+</script>
+</body>
+</html>
