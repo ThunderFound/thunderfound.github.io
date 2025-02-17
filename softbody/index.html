@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Softbody</title>
+		<style>
+			body {
+				margin: 0;
+				overflow: hidden;
+				background: #000000;
+			}
+			canvas {
+				display: block;
+			}
+			#options {
+				position: absolute;
+				display: flex;
+				flex-direction: column;
+				top: 10px;
+				left: 10px;
+				padding: 10px;
+				font-family: Geist, sans-serif;
+				color: white;
+			}
+			.option {
+				display: flex;
+				align-items: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="options">
+			<div class="option">
+				<label for="stiffnessControl">Stiffness:</label>
+				<input type="range" id="stiffnessControl" min="0.01" max="1" step="0.01" value="0.15" />
+				<input type="number" id="stiffnessValue" min="0.01" max="1" step="0.01" value="0.15" />
+			</div>
+			<div class="option">
+				<label for="toggleSprings">Show Springs:</label>
+				<input type="checkbox" id="toggleSprings" />
+			</div>
+			<div class="option">
+				<label for="toggleParticles">Show Particles:</label>
+				<input type="checkbox" id="toggleParticles" checked />
+			</div>
+			<div class="option">
+				<label for="resolutionControl">Square Resolution:</label>
+				<input type="range" id="resolutionControl" min="2" max="40" step="1" value="20" />
+				<input type="number" id="resolutionValue" min="2" max="40" step="1" value="20" />
+			</div>
+		</div>
+		<canvas id="canvas"></canvas>
+		<script>
+			const canvas = document.getElementById("canvas");
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+			const ctx = canvas.getContext("2d");
+
+			let globalStiffness = parseFloat(document.getElementById("stiffnessControl").value);
+			const stiffnessSlider = document.getElementById("stiffnessControl");
+			const stiffnessInput = document.getElementById("stiffnessValue");
+
+			stiffnessSlider.addEventListener("input", (e) => {
+				stiffnessInput.value = e.target.value;
+				globalStiffness = parseFloat(e.target.value);
+				for (const s of springs) {
+					s.stiffness = globalStiffness;
+				}
+			});
+			stiffnessInput.addEventListener("change", (e) => {
+				stiffnessSlider.value = e.target.value;
+				globalStiffness = parseFloat(e.target.value);
+				for (const s of springs) {
+					s.stiffness = globalStiffness;
+				}
+			});
+
+			class Particle {
+				constructor(x, y, pinned = false) {
+					this.x = x;
+					this.y = y;
+					this.px = x;
+					this.py = y;
+					this.ax = 0;
+					this.ay = 0;
+					this.pinned = pinned;
+				}
+				applyForce(fx, fy) {
+					this.ax += fx;
+					this.ay += fy;
+				}
+				update(delta) {
+					if (this.pinned) {
+						this.ax = 0;
+						this.ay = 0;
+						return;
+					}
+					let vx = this.x - this.px;
+					let vy = this.y - this.py;
+					let damping = 0.99;
+					let nx = this.x + vx * damping + this.ax * delta * delta;
+					let ny = this.y + vy * damping + this.ay * delta * delta;
+					this.px = this.x;
+					this.py = this.y;
+					this.x = nx;
+					this.y = ny;
+					this.ax = 0;
+					this.ay = 0;
+				}
+				draw(ctx) {
+					ctx.beginPath();
+					ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+					ctx.fill();
+				}
+			}
+
+			class Spring {
+				constructor(p1, p2, restLength) {
+					this.p1 = p1;
+					this.p2 = p2;
+					this.restLength = restLength;
+					this.stiffness = globalStiffness;
+				}
+				update() {
+					let dx = this.p2.x - this.p1.x;
+					let dy = this.p2.y - this.p1.y;
+					let dist = Math.sqrt(dx * dx + dy * dy);
+					let diff = (dist - this.restLength) / dist;
+					let offsetX = dx * 0.5 * this.stiffness * diff;
+					let offsetY = dy * 0.5 * this.stiffness * diff;
+					if (!this.p1.pinned) {
+						this.p1.x += offsetX;
+						this.p1.y += offsetY;
+					}
+					if (!this.p2.pinned) {
+						this.p2.x -= offsetX;
+						this.p2.y -= offsetY;
+					}
+				}
+				draw(ctx) {
+					ctx.lineWidth = 1.5;
+					ctx.beginPath();
+					ctx.moveTo(this.p1.x, this.p1.y);
+					ctx.lineTo(this.p2.x, this.p2.y);
+					ctx.stroke();
+				}
+			}
+
+			const toggleSprings = document.getElementById("toggleSprings");
+			const toggleParticles = document.getElementById("toggleParticles");
+			let showSprings = toggleSprings.checked;
+			let showParticles = toggleParticles.checked;
+			toggleSprings.addEventListener("change", () => {
+				showSprings = toggleSprings.checked;
+			});
+			toggleParticles.addEventListener("change", () => {
+				showParticles = toggleParticles.checked;
+			});
+
+			const resolutionSlider = document.getElementById("resolutionControl");
+			const resolutionInput = document.getElementById("resolutionValue");
+			let particles = [];
+			let springs = [];
+			let gridSize = parseInt(resolutionSlider.value);
+			let spacing, startX, startY;
+
+			function initGrid() {
+				particles = [];
+				springs = [];
+				gridSize = parseInt(resolutionSlider.value);
+				spacing = 500 / gridSize;
+				startX = canvas.width / 2 - (spacing * (gridSize - 1)) / 2;
+				startY = canvas.height / 2 - (spacing * (gridSize - 1)) / 2;
+				for (let y = 0; y < gridSize; y++) {
+					for (let x = 0; x < gridSize; x++) {
+						particles.push(new Particle(startX + x * spacing, startY + y * spacing));
+					}
+				}
+				for (let y = 0; y < gridSize; y++) {
+					for (let x = 0; x < gridSize; x++) {
+						const idx = y * gridSize + x;
+						if (x < gridSize - 1) {
+							const rightIdx = y * gridSize + (x + 1);
+							springs.push(new Spring(particles[idx], particles[rightIdx], spacing));
+						}
+						if (y < gridSize - 1) {
+							const bottomIdx = (y + 1) * gridSize + x;
+							springs.push(new Spring(particles[idx], particles[bottomIdx], spacing));
+						}
+						if (x < gridSize - 1 && y < gridSize - 1) {
+							const diagIdx = (y + 1) * gridSize + (x + 1);
+							springs.push(new Spring(particles[idx], particles[diagIdx], Math.sqrt(2 * spacing * spacing)));
+						}
+						if (x > 0 && y < gridSize - 1) {
+							const diagIdx = (y + 1) * gridSize + (x - 1);
+							springs.push(new Spring(particles[idx], particles[diagIdx], Math.sqrt(2 * spacing * spacing)));
+						}
+					}
+				}
+			}
+
+			resolutionSlider.addEventListener("input", (e) => {
+				resolutionInput.value = e.target.value;
+				initGrid();
+			});
+			resolutionInput.addEventListener("change", (e) => {
+				resolutionSlider.value = e.target.value;
+				initGrid();
+			});
+
+			initGrid();
+
+			const gravity = 0.5;
+			const radius = 3;
+			let draggedParticle = null;
+			let offsetX = 0;
+			let offsetY = 0;
+
+			canvas.addEventListener("mousedown", (e) => {
+				const mouseX = e.clientX;
+				const mouseY = e.clientY;
+				let closest = null;
+				let minDist = Infinity;
+				for (const p of particles) {
+					const dx = p.x - mouseX;
+					const dy = p.y - mouseY;
+					const dist = Math.sqrt(dx * dx + dy * dy);
+					if (dist < minDist && dist < 20) {
+						closest = p;
+						minDist = dist;
+					}
+				}
+				if (closest) {
+					draggedParticle = closest;
+					offsetX = mouseX - draggedParticle.x;
+					offsetY = mouseY - draggedParticle.y;
+					draggedParticle.pinned = true;
+				}
+			});
+
+			canvas.addEventListener("mousemove", (e) => {
+				if (draggedParticle) {
+					const mouseX = e.clientX;
+					const mouseY = e.clientY;
+					draggedParticle.x = mouseX - offsetX;
+					draggedParticle.y = mouseY - offsetY;
+					draggedParticle.px = draggedParticle.x;
+					draggedParticle.py = draggedParticle.y;
+				}
+			});
+
+			canvas.addEventListener("mouseup", () => {
+				if (draggedParticle) {
+					draggedParticle.pinned = false;
+					draggedParticle = null;
+				}
+			});
+
+			canvas.addEventListener("mouseleave", () => {
+				if (draggedParticle) {
+					draggedParticle.pinned = false;
+					draggedParticle = null;
+				}
+			});
+
+			document.getElementById("stiffnessControl").addEventListener("input", (e) => {
+				globalStiffness = parseFloat(e.target.value);
+				for (const s of springs) {
+					s.stiffness = globalStiffness;
+				}
+			});
+
+			function applyRepulsionForces(particles, repulsionStrength, minDistance) {
+				for (let i = 0; i < particles.length; i++) {
+					for (let j = i + 1; j < particles.length; j++) {
+						let p1 = particles[i];
+						let p2 = particles[j];
+						let dx = p2.x - p1.x;
+						let dy = p2.y - p1.y;
+						let distance = Math.sqrt(dx * dx + dy * dy);
+						if (distance < minDistance) {
+							let force = (repulsionStrength * (1 - distance / minDistance)) / distance;
+							let fx = dx * force;
+							let fy = dy * force;
+							if (!p1.pinned) {
+								p1.applyForce(-fx, -fy);
+							}
+							if (!p2.pinned) {
+								p2.applyForce(fx, fy);
+							}
+						}
+					}
+				}
+			}
+
+			let lastTime = performance.now();
+
+			function animate() {
+				const now = performance.now();
+				const delta = (now - lastTime) / 16;
+				lastTime = now;
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				applyRepulsionForces(particles, 100, spacing * 1.1);
+				for (const p of particles) {
+					p.applyForce(0, gravity);
+					p.update(delta);
+					if (p.x < radius) {
+						p.x = radius;
+						p.px = p.x;
+					}
+					if (p.x > canvas.width - radius) {
+						p.x = canvas.width - radius;
+						p.px = p.x;
+					}
+					if (p.y < radius) {
+						p.y = radius;
+						p.py = p.y;
+					}
+					if (p.y > canvas.height - radius) {
+						p.y = canvas.height - radius;
+						p.py = p.y;
+					}
+				}
+				for (let i = 0; i < 5; i++) {
+					for (const s of springs) {
+						s.update();
+					}
+				}
+				if (showSprings) {
+					ctx.strokeStyle = "#fff";
+					for (const s of springs) {
+						s.draw(ctx);
+					}
+				}
+				if (showParticles) {
+					ctx.fillStyle = "#ddd";
+					for (const p of particles) {
+						p.draw(ctx);
+					}
+				}
+				requestAnimationFrame(animate);
+			}
+
+			animate();
+		</script>
+	</body>
+</html>
