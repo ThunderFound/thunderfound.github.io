@@ -50,7 +50,6 @@
             height: 100%;
             max-height: 100vh;
             overflow-y: auto;
-            /* Hide scrollbar for aesthetics (optional) */
             scrollbar-width: thin;
             scrollbar-color: #3a3a3a #282828;
         }
@@ -67,7 +66,7 @@
             max-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Align content to top */
+            justify-content: flex-start;
         }
 
         .section {
@@ -374,6 +373,11 @@
                     <div class="section-title">Modifiers</div>
                     <div class="modifier-grid" id="modifierGrid"></div>
                 </div>
+
+                <div style="margin-top:auto; padding-top:30px; text-align:center; color:#706758; font-size:0.95rem;">
+                    Made with <span style="color:#e25555;">❤️</span> by ThunderFound :3<br>
+                    <span style="font-size:0.85em;">(Mostly a redesign of <a href="https://www.growagardencalculator.com/" target="_blank" style="color:#b5a791;text-decoration:underline;">growagardencalculator.com</a> made by <span style="color:#b5a791">@awesomedu</span>)</span>
+                </div>
             </div>
 
             <div class="right-panel">
@@ -453,6 +457,7 @@
             "Passionfruit": { baseWeight: 2.867, baseValue: 3204, multiplier: 395, icon: "passionfruit.png", category: "exotic" },
             "Soulfruit": { baseWeight: 23.75, baseValue: 6994, multiplier: 12.4, icon: "soulfruit.png", category: "exotic" },
             
+    
             "Hive": { baseWeight: 7.614, baseValue: 6318, multiplier: 109, icon: "hive.png", category: "beeEvent" },
             "Lilac": { baseWeight: 2.846, baseValue: 31588, multiplier: 3899, icon: "lilac.png", category: "beeEvent" }
         };
